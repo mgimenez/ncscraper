@@ -1,0 +1,7 @@
+body {
+	max-width: 100%;
+
+	@include respond-to('medium') {
+		max-width: 80%;
+	}
+}

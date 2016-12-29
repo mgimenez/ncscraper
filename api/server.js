@@ -1,5 +1,9 @@
-var express = require('express');
-var api = express();
+/**
+ * Module dependencies
+ */
+
+const express = require('express');
+const api = express();
 const getNcEvents = require('./nc');
 
 
