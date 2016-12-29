@@ -1,7 +1,35 @@
 body {
-	max-width: 100%;
+  max-width: 100%;
+  margin: auto;
+  font-family: 'Roboto', sans-serif;
+  @include respond-to('medium') {
+    max-width: 80%;
+  }
 
-	@include respond-to('medium') {
-		max-width: 80%;
-	}
+  li {
+    list-style: none;
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  .loading {
+    background-image: url('../images/loading.gif');
+    background-repeat: no-repeat;
+    min-height: 32px;
+  }
+
+  .next-events {
+    h2 {
+      text-transform: capitalize;
+    }
+    li {
+      padding: .5em;
+      cursor: pointer;
+      &:hover {
+        background-color: #ccc;
+      }
+    }
+  }
 }

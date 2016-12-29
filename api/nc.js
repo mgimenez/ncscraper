@@ -33,11 +33,10 @@ let z = defaultZone;
  * Scrap events and built a response
  */
 function scrapEventsbyZones($) {
-  const eventCollections = {};
-
-  eventCollections['events'] = [];
+  const eventCollections = [];
+  response = {};
   $('h3.threadtitle a.title').map(function() {
-      eventCollections['events'].push($(this).text());
+      eventCollections.push($(this).text());
   }).get();
   response[z] = eventCollections;
   return response;
@@ -48,7 +47,7 @@ function scrapEventsbyZones($) {
  */
 function getNcEvents(zone) {
   z = urlZones.hasOwnProperty(zone) ? zone : defaultZone;
-  response[z] = {};
+
   return StaticScraper.create(urlZones[z].url).scrape(scrapEventsbyZones);
 }
 

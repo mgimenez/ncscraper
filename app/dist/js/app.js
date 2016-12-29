@@ -9,15 +9,21 @@
 
     populateEvents: function() {
       let list = '<ul>',
-          zone = doc.location.search.split('?zone=')[1];
+          zone = doc.location.search.split('?zone=')[1],
+          $nextEvents = $('.next-events');
+
+      $nextEvents.addClass('loading');
+
       events.getEvents(zone).then(function(events) {
-        for(event in events) {
-          events[event]['events'].forEach(function(ev) {
+        for(zone in events) {
+          events[zone].forEach(function(ev) {
             list += '<li>' + ev + '</li>';
           });
         }
         list += '</ul>';
-        $('.next-events')[0].insertAdjacentHTML('beforeend', list);
+        $nextEvents[0].insertAdjacentHTML('afterbegin', '<h2>' + zone.replace('-', ' ') + '</h2>');
+        $nextEvents[0].insertAdjacentHTML('beforeend', list);
+        $nextEvents.removeClass('loading');
       });
     }
   };
