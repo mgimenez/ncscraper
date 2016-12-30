@@ -38,7 +38,8 @@ function scrapEventsbyZones($) {
   $('h3.threadtitle a.title').map(function() {
       eventCollections.push($(this).text());
   }).get();
-  response[z] = eventCollections;
+  response['zone'] = z.replace('-', ' ');
+  response['events'] = eventCollections;
   return response;
 }
 

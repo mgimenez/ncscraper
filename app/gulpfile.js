@@ -17,6 +17,7 @@ var gulp = require('gulp'),
     color = require('gulp-color'),
     imagemin = require('gulp-imagemin'),
     pug = require('gulp-pug'),
+    pugConcat = require('gulp-pug-template-concat'),
     path = {
       src: './src',
       dist: './dist',
@@ -52,6 +53,13 @@ gulp.task('copyJs', function() {
     .pipe(gulp.dest(path.dist + '/js'));
 });
 
+// Copy vendor Files
+gulp.task('copyVendor', function() {
+  gulp.src(path.src + '/vendor/**/*.js')
+    .pipe(copy())
+    .pipe(gulp.dest(path.dist + '/vendor'));
+});
+
 gulp.task('imagemin', function() {
     gulp.src(path.src + '/images/*')
         .pipe(imagemin())
@@ -64,6 +72,7 @@ gulp.task('watch', function () {
     gulp.watch(path.src + '/**/*.html', ['copyHtml']);
     gulp.watch(path.src + '/**/*.js', ['hintJs', 'copyJs']);
     gulp.watch(path.src + '/pug/*.pug', ['pug']);
+    gulp.watch(path.src + '/pug/templates/*.tpug', ['pugTemplates']);
 });
 
 
@@ -103,6 +112,15 @@ gulp.task('pug', function () {
   .pipe(gulp.dest(path.dist));
 });
 
+gulp.task("pugTemplates", function(){
+  gulp.src(path.src + '/pug/templates/*.tpug')
+    .pipe(pug({
+        client: true
+    }))
+    .pipe(pugConcat('templates.js', {templateVariable:"templates"}))
+    .pipe(gulp.dest(path.dist + '/js'))
+});
+
 // Merge Script tags
 gulp.task('mergeScript', function () {
     gulp.src(path.dist + '/**/*.html')
@@ -129,19 +147,19 @@ gulp.task('connect', function() {
 
 
 gulp.task('dist', function() {
-  runSequence('clean', 'sass', 'hintJs', 'copyJs', 'pug', 'imagemin', function() {
+  runSequence('clean', 'sass', 'hintJs', 'copyJs', 'pugTemplates', 'pug', 'imagemin', function() {
     console.log(color('SUCCESSFULLY DIST!', 'YELLOW'));
   });
 });
 
 gulp.task('dev', function(callback) {
-  runSequence('clean', 'sass', 'hintJs', 'copyJs', 'pug', 'imagemin', 'watch', 'connect', function() {
+  runSequence('clean', 'sass', 'hintJs', 'copyJs', 'copyVendor', 'pugTemplates', 'pug', 'imagemin', 'watch', 'connect', function() {
     console.log(color('HAPPY DEV!', 'BLUE'));
   });
 });
 
 gulp.task('build', function(callback) {
-  runSequence('clean', 'sass', 'hintJs', 'concatJs', 'uglifyJs', 'imagemin', 'pug', 'mergeScript', function() {
+  runSequence('clean', 'sass', 'hintJs', 'concatJs', 'uglifyJs', 'imagemin', 'pugTemplates', 'pug', 'mergeScript', function() {
     console.log(color('SUCCESSFULLY BUILD!', 'YELLOW'));
   });
 });

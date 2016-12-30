@@ -1,4 +1,4 @@
-(function(doc) {
+(function(doc, $, events, templates) {
   'use strict';
 
   var app = {
@@ -10,24 +10,16 @@
     populateEvents: function() {
       let list = '<ul>',
           zone = doc.location.search.split('?zone=')[1],
-          $nextEvents = $('.next-events');
-
-      $nextEvents.addClass('loading');
+          $nextEvents = $('.next-events').addClass('loading');
 
       events.getEvents(zone).then(function(events) {
-        for(zone in events) {
-          events[zone].forEach(function(ev) {
-            list += '<li>' + ev + '</li>';
-          });
-        }
-        list += '</ul>';
-        $nextEvents[0].insertAdjacentHTML('afterbegin', '<h2>' + zone.replace('-', ' ') + '</h2>');
-        $nextEvents[0].insertAdjacentHTML('beforeend', list);
-        $nextEvents.removeClass('loading');
+        $nextEvents
+          .append(templates.listEvents(events))
+          .removeClass('loading');
       });
     }
   };
 
   app.init();
 
-}(window.document));
+}(window.document, window.jQuery, window.events, window.templates));

@@ -11,10 +11,10 @@
             resolve(data);
           }
         });
-      })
+      });
     }
   };
 
   window.events = events;
 
-}(window, window.document, jQuery));
+}(window, window.document, window.jQuery));

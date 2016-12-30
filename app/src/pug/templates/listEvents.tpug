@@ -1,0 +1,4 @@
+h2 #{zone}
+ul
+  each event in events
+    li #{event}
