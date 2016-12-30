@@ -48,7 +48,12 @@ function scrapEventsbyZones($) {
 function getNcEvents(zone) {
   z = urlZones.hasOwnProperty(zone) ? zone : defaultZone;
 
-  return StaticScraper.create(urlZones[z].url).scrape(scrapEventsbyZones);
+  return StaticScraper.create()
+    .request({
+      url:urlZones[z].url,
+      encoding: "binary"
+    })
+    .scrape(scrapEventsbyZones);
 }
 
 /**
