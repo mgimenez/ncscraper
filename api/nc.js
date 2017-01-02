@@ -34,9 +34,14 @@ let z = defaultZone;
  */
 function scrapEventsbyZones($) {
   const eventCollections = [];
+  let objEv = [];
   response = {};
   $('h3.threadtitle a.title').map(function() {
-      eventCollections.push($(this).text());
+      objEv = {
+        'title': $(this).text(),
+        'url': $(this).attr('href')
+      };
+      eventCollections.push(objEv);
   }).get();
   response['zone'] = z.replace('-', ' ');
   response['events'] = eventCollections;
