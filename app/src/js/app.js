@@ -8,8 +8,7 @@
     },
 
     populateEvents: function() {
-      let list = '<ul>',
-          zone = doc.location.search.split('?zone=')[1],
+      let zone = doc.location.search.split('?zone=')[1],
           $nextEvents = $('.next-events').addClass('loading');
 
       events.getEvents(zone).then(function(events) {
