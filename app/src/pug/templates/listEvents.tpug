@@ -1,4 +1,5 @@
 h2 #{zone}
 ul
   each event in events
-    li #{event}
+    li
+      a(href=event.url) #{event.title}
